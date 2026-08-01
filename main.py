@@ -2,7 +2,7 @@ import cv2
 import time
 import glob
 import os
-from threading import Thread  # Added for smooth video performance
+from threading import Thread
 from emailing import send_email
 
 video = cv2.VideoCapture(0)
@@ -65,10 +65,11 @@ while True:
         # Run email in a background thread so the video doesn't freeze
         email_thread = Thread(target=send_email, args=(image_with_object,))
         email_thread.daemon = True
-        email_thread.start()
 
         clean_thread = Thread(target=clean_folder)
         clean_thread.daemon = True
+
+        email_thread.start()
         clean_thread.start()
 
     cv2.imshow("video", frame)
